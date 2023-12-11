@@ -3,7 +3,6 @@
   "description": "",
   "version": "1.0.0",
   "main": "index.js",
-  "type": "module",
   "devDependencies": {
     "eslint": "^8.55.0",
     "eslint-config-standard": "^17.1.0",
@@ -14,6 +13,7 @@
   },
   "scripts": {
     "dev": "nodemon ./src/index.js",
+    "command": "node ./src/deploy_commands.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -21,6 +21,7 @@
   "license": "ISC",
   "dependencies": {
     "discord.js": "^14.14.1",
-    "dotenv": "^16.3.1"
+    "dotenv": "^16.3.1",
+    "fs": "^0.0.1-security"
   }
 }

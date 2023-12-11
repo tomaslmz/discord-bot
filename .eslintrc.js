@@ -18,10 +18,10 @@ module.exports = {
     }
   ],
   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module'
+    ecmaVersion: 'latest'
   },
   rules: {
-    semi: 0
+    semi: 0,
+    camelcase: 0
   }
 }
