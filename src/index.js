@@ -7,6 +7,8 @@ const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
 client.commands = new Collection();
 
+client.cooldowns = new Collection();
+
 const foldersPath = path.join(__dirname, 'commands');
 const commandFolders = fs.readdirSync(foldersPath);
 
@@ -27,7 +29,7 @@ for (const folder of commandFolders) {
 }
 
 const eventsPath = path.join(__dirname, 'events');
-const eventsFile = fs.readdirSync(eventsPath);
+const eventsFile = fs.readdirSync(eventsPath).filter(file => file.endsWith('.js'));
 
 for (const file of eventsFile) {
   const filePath = path.join(eventsPath, file);
