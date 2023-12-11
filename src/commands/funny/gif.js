@@ -4,8 +4,11 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName('gif')
     .setDescription('Sends a gif according to your choice!')
+    .setDescriptionLocalizations({
+      'pt-BR': 'Envia um gif de acordo com sua escolha!'
+    })
     .addStringOption(
-      option => option.setName('category').setDescription('The gif category').setRequired(true).addChoices(
+      option => option.setName('category').setDescription('The gif category').setDescriptionLocalizations({ 'pt-BR': 'A categoria do gif' }).setRequired(true).addChoices(
         { name: 'guiven', value: 'gif_guiven' },
         { name: 'breaking bad', value: 'gif_breaking_bad' }
       )
