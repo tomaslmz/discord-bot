@@ -9,6 +9,5 @@ module.exports = {
     }
 
     interaction.reply(locales[interaction.locale] ?? 'Hello!');
-    console.log(interaction.locale);
   }
 }
