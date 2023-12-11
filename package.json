@@ -14,6 +14,7 @@
   "scripts": {
     "dev": "nodemon ./src/index.js",
     "deploy": "node ./src/deploy_commands.js",
+    "deploy-dev": "node ./src/deploy_commands_dev.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
