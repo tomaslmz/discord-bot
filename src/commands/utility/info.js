@@ -59,8 +59,8 @@ module.exports = {
             .setTitle(titleLocales[interaction.locale] ?? 'User\'s info')
             .setThumbnail(`https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.webp`)
             .addFields(
-              { name: usernameLocales[interaction.locale] ?? 'Username', value: user.username },
-              { name: idLocales[interaction.locale] ?? 'ID', value: user.id }
+              { name: usernameLocales[interaction.locale] ?? 'Username', value: user.username, inline: true },
+              { name: idLocales[interaction.locale] ?? 'ID', value: user.id, inline: true }
             )
           await interaction.reply({ embeds: [embed] });
         } else {
@@ -69,8 +69,8 @@ module.exports = {
             .setTitle(titleLocales[interaction.locale] ?? 'User\'s info')
             .setThumbnail(`https://cdn.discordapp.com/avatars/${interaction.user.id}/${interaction.user.avatar}.webp`)
             .addFields(
-              { name: usernameLocales[interaction.locale] ?? 'Username', value: interaction.user.username },
-              { name: idLocales[interaction.locale] ?? 'ID', value: interaction.user.id }
+              { name: usernameLocales[interaction.locale] ?? 'Username', value: interaction.user.username, inline: true },
+              { name: idLocales[interaction.locale] ?? 'ID', value: interaction.user.id, inline: true }
             )
           await interaction.reply({ embeds: [embed] });
         }
@@ -92,8 +92,8 @@ module.exports = {
           .setColor(0x009FF)
           .setTitle(titleServerLocales[interaction.locale] ?? 'Server\'s info')
           .addFields(
-            { name: nameLocales[interaction.locale] ?? 'Server\'s name', value: interaction.guild.name },
-            { name: totalLocales[interaction.locale] ?? 'Total members', value: interaction.guild.memberCount.toString() }
+            { name: nameLocales[interaction.locale] ?? 'Server\'s name', value: interaction.guild.name, inline: true },
+            { name: totalLocales[interaction.locale] ?? 'Total members', value: interaction.guild.memberCount.toString(), inline: true }
           )
 
         if (interaction.guild.icon) {
