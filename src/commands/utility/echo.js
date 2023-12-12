@@ -18,6 +18,9 @@ module.exports = {
     .addChannelOption(
       option => option
         .setName('channel')
+        .setNameLocalizations(
+          { 'pt-BR': 'canal' }
+        )
         .setDescription('The channel to echo into')
         .setDescriptionLocalizations(
           { 'pt-BR': 'O canal que será enviado a mensagem' }

@@ -8,10 +8,21 @@ module.exports = {
       'pt-BR': 'Envia um gif de acordo com sua escolha!'
     })
     .addStringOption(
-      option => option.setName('category').setDescription('The gif category').setDescriptionLocalizations({ 'pt-BR': 'A categoria do gif' }).setRequired(true).addChoices(
-        { name: 'guiven', value: 'gif_guiven' },
-        { name: 'breaking bad', value: 'gif_breaking_bad' }
-      )
+      option =>
+        option
+          .setName('category')
+          .setNameLocalizations(
+            { 'pt-BR': 'categoria' }
+          )
+          .setDescription('The gif category')
+          .setDescriptionLocalizations(
+            { 'pt-BR': 'A categoria do gif' }
+          )
+          .setRequired(true)
+          .addChoices(
+            { name: 'guiven', value: 'gif_guiven' },
+            { name: 'breaking bad', value: 'gif_breaking_bad' }
+          )
     ),
 
   async execute (interaction) {
