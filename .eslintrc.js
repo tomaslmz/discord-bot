@@ -22,6 +22,7 @@ module.exports = {
   },
   rules: {
     semi: 0,
-    camelcase: 0
+    camelcase: 0,
+    'no-case-declarations': 0
   }
 }
