@@ -68,7 +68,7 @@ module.exports = {
     }
 
     try {
-      if (interaction.options.getMember('target').roles.highest.position > interaction.guild.members.cache.get('695828318796120166').roles.highest.position) {
+      if (interaction.options.getMember('target').roles.highest.position > interaction.guild.members.cache.get(interaction.user.id).roles.highest.position) {
         await interaction.reply({ content: positionCheck[interaction.locale] ?? 'You don\'t have permission to ban this user!', ephemeral: true });
         return;
       }
@@ -102,6 +102,11 @@ module.exports = {
 
     const noPermission = {
       'pt-BR': 'Não tenho permissão o suficiente para banir este usuário!'
+    }
+
+    if (interaction.options.getMember('target').roles.highest.position > interaction.guild.members.cache.get('1183611119785484339').roles.highest.position) {
+      await interaction.reply({ content: noPermission[interaction.locale] ?? 'I don\'t have sufficient permissions to ban that user!', ephemeral: true });
+      return;
     }
 
     const confirmButton = {
