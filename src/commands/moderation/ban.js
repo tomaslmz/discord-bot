@@ -1,4 +1,5 @@
 const { SlashCommandBuilder, PermissionFlagsBits, ButtonBuilder, ButtonStyle, ActionRowBuilder, EmbedBuilder } = require('discord.js');
+const defaultImage = require('../../functions/getDefaultImage');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -49,7 +50,23 @@ module.exports = {
 
     const user = interaction.options.getUser('target');
 
-    console.log(interaction.member.guild.roles.highest);
+    const positionCheck = {
+      'pt-BR': 'Você não tem permissão para banir este usuário!'
+    }
+
+    const isOnServer = {
+      'pt-BR': 'O membro que você está tentando banir não está no servidor!'
+    }
+
+    try {
+      if (interaction.options.getMember('target').roles.highest.position > interaction.member.guild.roles.highest.position) {
+        await interaction.reply({ content: positionCheck[interaction.locale] ?? 'You don\'t have permission to ban this user!', ephemeral: true });
+        return;
+      }
+    } catch {
+      await interaction.reply({ content: isOnServer[interaction.locale] ?? 'The member you\'re trying to ban isn\'t in the server!', ephemeral: true });
+      return;
+    }
 
     if (!user) {
       await interaction.reply({ content: checkUser[interaction.locale] ?? 'The user doesn\'t exist!', ephemeral: true });
@@ -61,7 +78,16 @@ module.exports = {
     }
 
     if (user.id === interaction.user.id) {
-      await interaction.reply({ content: checkSameUser[interaction.locale] ?? 'You can\t ban yourself!', ephemeral: true });
+      await interaction.reply({ content: checkSameUser[interaction.locale] ?? 'You can\'t ban yourself!', ephemeral: true });
+      return;
+    }
+
+    const banOwner = {
+      'pt-BR': 'Você não pode banir o dono do servidor!'
+    }
+
+    if (user.id === interaction.member.guild.ownerId) {
+      await interaction.reply({ content: banOwner[interaction.locale] ?? 'You can\'t ban the server owner!', ephemeral: true });
       return;
     }
 
@@ -111,13 +137,13 @@ module.exports = {
     const embed = new EmbedBuilder()
       .setColor('#d10d0d')
       .setTitle(titleConfirm[interaction.locale] ?? 'Ban confirmation')
-      .setThumbnail(`https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.webp`)
+      .setThumbnail(user.avatar ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.webp` : `https://cdn.discordapp.com/embed/avatars/${defaultImage(user)}.png`)
       .addFields(
         { name: usernameLocales[interaction.locale] ?? 'Username', value: user.username, inline: true },
         { name: idLocales[interaction.locale] ?? 'ID', value: user.id, inline: true },
         { name: reasonLocales[interaction.locale] ?? 'Reason', value: reason }
       )
-      .setFooter({ text: interaction.user.username, iconURL: `https://cdn.discordapp.com/avatars/${interaction.user.id}/${interaction.user.avatar}.webp` })
+      .setFooter({ text: interaction.user.username, iconURL: interaction.user.avatar ? `https://cdn.discordapp.com/avatars/${interaction.user.id}/${interaction.user.avatar}.webp` : `https://cdn.discordapp.com/embed/avatars/${defaultImage(interaction.user)}.png` })
 
     const response = await interaction.reply({ embeds: [embed], components: [row] });
 
@@ -161,7 +187,6 @@ module.exports = {
       cancel.setDisabled(true);
 
       await interaction.editReply({ embeds: [embed], components: [row] });
-      console.log(e);
     }
   }
 }
