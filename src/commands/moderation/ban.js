@@ -50,6 +50,15 @@ module.exports = {
 
     const user = interaction.options.getUser('target');
 
+    const banBot = {
+      'pt-BR': 'Você não pode me banir!'
+    }
+
+    if (interaction.applicationId === user.id) {
+      await interaction.reply({ content: banBot[interaction.locale] ?? 'You can\'t ban me!', ephemeral: true });
+      return;
+    }
+
     const positionCheck = {
       'pt-BR': 'Você não tem permissão para banir este usuário!'
     }
@@ -59,7 +68,7 @@ module.exports = {
     }
 
     try {
-      if (interaction.options.getMember('target').roles.highest.position > interaction.member.guild.roles.highest.position) {
+      if (interaction.options.getMember('target').roles.highest.position > interaction.guild.members.cache.get('695828318796120166').roles.highest.position) {
         await interaction.reply({ content: positionCheck[interaction.locale] ?? 'You don\'t have permission to ban this user!', ephemeral: true });
         return;
       }
@@ -89,6 +98,10 @@ module.exports = {
     if (user.id === interaction.member.guild.ownerId) {
       await interaction.reply({ content: banOwner[interaction.locale] ?? 'You can\'t ban the server owner!', ephemeral: true });
       return;
+    }
+
+    const noPermission = {
+      'pt-BR': 'Não tenho permissão o suficiente para banir este usuário!'
     }
 
     const confirmButton = {
