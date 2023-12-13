@@ -1,5 +1,7 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 
+const defaultImage = require('../../functions/getDefaultImage');
+
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('info')
@@ -57,7 +59,7 @@ module.exports = {
           const embed = new EmbedBuilder()
             .setColor(0x009FF)
             .setTitle(titleLocales[interaction.locale] ?? 'User\'s info')
-            .setThumbnail(`https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.webp`)
+            .setThumbnail(user.avatar ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.webp` : `https://cdn.discordapp.com/embed/avatars/${defaultImage(user)}.png`)
             .addFields(
               { name: usernameLocales[interaction.locale] ?? 'Username', value: user.username, inline: true },
               { name: idLocales[interaction.locale] ?? 'ID', value: user.id, inline: true }
@@ -67,7 +69,7 @@ module.exports = {
           const embed = new EmbedBuilder()
             .setColor(0x009FF)
             .setTitle(titleLocales[interaction.locale] ?? 'User\'s info')
-            .setThumbnail(`https://cdn.discordapp.com/avatars/${interaction.user.id}/${interaction.user.avatar}.webp`)
+            .setThumbnail(interaction.user.avatar ? `https://cdn.discordapp.com/avatars/${interaction.user.id}/${interaction.user.avatar}.webp` : `https://cdn.discordapp.com/embed/avatars/${defaultImage(interaction.user)}.png`)
             .addFields(
               { name: usernameLocales[interaction.locale] ?? 'Username', value: interaction.user.username, inline: true },
               { name: idLocales[interaction.locale] ?? 'ID', value: interaction.user.id, inline: true }
