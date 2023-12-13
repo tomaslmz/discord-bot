@@ -1,5 +1,6 @@
 const { SlashCommandBuilder, PermissionFlagsBits, ButtonBuilder, ButtonStyle, ActionRowBuilder, EmbedBuilder } = require('discord.js');
 const defaultImage = require('../../functions/getDefaultImage');
+const errorEmbed = require('../../embeds/error');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -35,77 +36,89 @@ module.exports = {
     .setDefaultMemberPermissions(PermissionFlagsBits.BanMembers),
 
   async execute (interaction) {
-    const checkPermissions = {
-      'pt-BR': 'Você não tem as permissões necessárias para executar este comando!'
-    }
-
-    const checkUser = {
-      'pt-BR': 'O usuário não existe!'
+    const titleError = {
+      'pt-BR': 'Um erro ocorreu ao banir'
     }
 
     if (!interaction.guild.members.me.permissions.has(PermissionFlagsBits.BanMembers)) {
-      await interaction.reply({ content: checkPermissions[interaction.locale] ?? 'You don\'t have necessary permissions to run this command!', ephemeral: true });
+      const checkPermissions = {
+        'pt-BR': 'Você não tem as permissões necessárias para executar este comando!'
+      }
+
+      const embed = errorEmbed(titleError[interaction.locale] ?? 'An error occured trying to ban', checkPermissions[interaction.locale] ?? 'You don\'t have necessary permissions to run this command!', interaction.user);
+      await interaction.reply({ embeds: [embed], ephemeral: true });
       return;
     }
 
     const user = interaction.options.getUser('target');
 
-    const banBot = {
-      'pt-BR': 'Você não pode me banir!'
-    }
-
     if (interaction.applicationId === user.id) {
-      await interaction.reply({ content: banBot[interaction.locale] ?? 'You can\'t ban me!', ephemeral: true });
-      return;
-    }
-
-    const positionCheck = {
-      'pt-BR': 'Você não tem permissão para banir este usuário!'
-    }
-
-    const isOnServer = {
-      'pt-BR': 'O membro que você está tentando banir não está no servidor!'
-    }
-
-    try {
-      if (interaction.options.getMember('target').roles.highest.position > interaction.guild.members.cache.get(interaction.user.id).roles.highest.position) {
-        await interaction.reply({ content: positionCheck[interaction.locale] ?? 'You don\'t have permission to ban this user!', ephemeral: true });
-        return;
+      const banBot = {
+        'pt-BR': 'Você não pode me banir!'
       }
-    } catch {
-      await interaction.reply({ content: isOnServer[interaction.locale] ?? 'The member you\'re trying to ban isn\'t in the server!', ephemeral: true });
+
+      const embed = errorEmbed(titleError[interaction.locale] ?? 'An error occured trying to ban', banBot[interaction.locale] ?? 'You can\'t ban me!', interaction.user);
+      await interaction.reply({ embeds: [embed], ephemeral: true });
       return;
     }
 
     if (!user) {
-      await interaction.reply({ content: checkUser[interaction.locale] ?? 'The user doesn\'t exist!', ephemeral: true });
+      const checkUser = {
+        'pt-BR': 'O usuário não existe!'
+      }
+
+      const embed = errorEmbed(titleError[interaction.locale] ?? 'An error occured trying to ban', checkUser[interaction.locale] ?? 'The user doesn\'t exist!', interaction.user);
+      await interaction.reply({ embeds: [embed], ephemeral: true });
       return;
     }
 
-    const checkSameUser = {
-      'pt-BR': 'Você não pode banir a si mesmo!'
+    try {
+      if (interaction.options.getMember('target').roles.highest.position > interaction.guild.members.cache.get(interaction.user.id).roles.highest.position) {
+        const positionCheck = {
+          'pt-BR': 'Você não tem permissão para banir este usuário!'
+        }
+
+        const embed = errorEmbed(titleError[interaction.locale] ?? 'An error occured trying to ban', positionCheck[interaction.locale] ?? 'You don\'t have permission to ban this user!', interaction.user);
+        await interaction.reply({ embeds: [embed], ephemeral: true });
+        return;
+      }
+    } catch {
+      const isOnServer = {
+        'pt-BR': 'O membro que você está tentando banir não está no servidor!'
+      }
+
+      const embed = errorEmbed(titleError[interaction.locale] ?? 'An error occured trying to ban', isOnServer[interaction.locale] ?? 'The member you\'re trying to ban isn\'t in the server!', interaction.user);
+      await interaction.reply({ embeds: [embed], ephemeral: true });
+      return;
     }
 
     if (user.id === interaction.user.id) {
-      await interaction.reply({ content: checkSameUser[interaction.locale] ?? 'You can\'t ban yourself!', ephemeral: true });
-      return;
-    }
+      const checkSameUser = {
+        'pt-BR': 'Você não pode banir a si mesmo!'
+      }
 
-    const banOwner = {
-      'pt-BR': 'Você não pode banir o dono do servidor!'
+      const embed = errorEmbed(titleError[interaction.locale] ?? 'An error occured trying to ban', checkSameUser[interaction.locale] ?? 'You can\'t ban yourself!', interaction.user);
+      await interaction.reply({ embeds: [embed], ephemeral: true });
+      return;
     }
 
     if (user.id === interaction.member.guild.ownerId) {
-      await interaction.reply({ content: banOwner[interaction.locale] ?? 'You can\'t ban the server owner!', ephemeral: true });
+      const banOwner = {
+        'pt-BR': 'Você não pode banir o dono do servidor!'
+      }
+
+      const embed = errorEmbed(titleError[interaction.locale] ?? 'An error occured trying to ban', banOwner[interaction.locale] ?? 'You can\'t ban the server owner!', interaction.user);
+      await interaction.reply({ embeds: [embed], ephemeral: true });
       return;
     }
 
-    const noPermission = {
-      'pt-BR': 'Não tenho permissão o suficiente para banir este usuário!'
-    }
-
     if (interaction.options.getMember('target').roles.highest.position > interaction.guild.members.cache.get('1183611119785484339').roles.highest.position) {
-      await interaction.reply({ content: noPermission[interaction.locale] ?? 'I don\'t have sufficient permissions to ban that user!', ephemeral: true });
+      const noPermission = {
+        'pt-BR': 'Não tenho permissão o suficiente para banir este usuário!'
+      }
+
+      const embed = errorEmbed(titleError[interaction.locale] ?? 'An error occured trying to ban', noPermission[interaction.locale] ?? 'I don\'t have sufficient permissions to ban that user!', interaction.user);
+      await interaction.reply({ embeds: [embed], ephemeral: true });
       return;
     }
 
