@@ -40,7 +40,7 @@ module.exports = {
       'pt-BR': 'Um erro ocorreu ao banir'
     }
 
-    if (!interaction.options.getMember('target').permissions.has(PermissionFlagsBits.KickMembers)) {
+    if (!interaction.options.getMember('target').permissions.has(PermissionFlagsBits.BanMembers)) {
       const checkPermissions = {
         'pt-BR': 'Você não tem as permissões necessárias para executar este comando!'
       }
