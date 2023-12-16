@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, PermissionFlagsBits, ButtonBuilder, ButtonStyle, ActionRowBuilder, EmbedBuilder } = require('discord.js');
-const defaultImage = require('../../functions/getDefaultImage');
+const defaultImage = require('../../utils/getDefaultImage');
 const errorEmbed = require('../../embeds/error');
 
 module.exports = {

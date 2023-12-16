@@ -1,6 +1,6 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 
-const defaultImage = require('../../functions/getDefaultImage');
+const defaultImage = require('../../utils/getDefaultImage');
 
 module.exports = {
   data: new SlashCommandBuilder()

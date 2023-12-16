@@ -1,8 +1,25 @@
 const { Events, Collection } = require('discord.js');
+const User = require('../models/User');
 
 module.exports = {
   name: Events.InteractionCreate,
   async execute (interaction) {
+    const query = {
+      id: interaction.user.id,
+      locale: interaction.locale
+    }
+
+    const user = await User.findOne(query);
+
+    if (user) {
+      user.locale = interaction.locale;
+
+      user.save();
+    } else {
+      const newUser = await new User(query);
+      newUser.save();
+    }
+
     const { cooldowns } = interaction.client;
 
     if (!interaction.isChatInputCommand()) return;
